@@ -6,6 +6,8 @@ import { ErrorMessageMap } from '../errors/error-message.map';
 @Catch()
 export class AllExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
+    console.error(exception);
+
     const ctx = host.switchToHttp();
     const res = ctx.getResponse<Response>();
     const req = ctx.getRequest<Request>();
