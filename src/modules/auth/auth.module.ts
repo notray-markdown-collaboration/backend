@@ -6,10 +6,9 @@ import { JwtModule } from "@nestjs/jwt";
 import { GithubStrategy } from "./strategy/github.strategy";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { GoogleStrategy } from "./strategy/google.strategy";
-import { TokenStorageService } from "./token-storage.service";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { UserEntity } from "./entities/user.entity";
-import { TemplateModule } from "src/common/template/template.module";
+import { TokenRedisService } from "../redis/token-redis.service";
+import { TemplateModule } from "src/share/template/template.module";
+import { UsersModule } from "../users/users.module";
 
 @Module({
   imports: [
@@ -22,10 +21,10 @@ import { TemplateModule } from "src/common/template/template.module";
         signOptions: { expiresIn: config.get("auth.expiresIn") },
       }),
     }),
-    TypeOrmModule.forFeature([UserEntity]),
     TemplateModule,
+    UsersModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, TokenStorageService, GithubStrategy, GoogleStrategy],
+  providers: [AuthService, TokenRedisService, GithubStrategy, GoogleStrategy],
 })
 export class AuthModule {}

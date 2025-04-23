@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@nestjs/common';
 import Redis from 'ioredis';
 
 @Injectable()
-export class TokenStorageService {
+export class TokenRedisService {
   constructor(@Inject('REDIS_CLIENT') private readonly redis: Redis) {}
 
   async storeRefreshToken(userId: string, token: string, ttl = 7 * 24 * 60 * 60): Promise<void> {

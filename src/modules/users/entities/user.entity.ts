@@ -1,7 +1,5 @@
-// user.entity.ts
+import { OAuthProvider } from 'src/common/types/oAuthProvider.type';
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-
-export type OAuthProvider = 'google' | 'github';
 
 @Entity('users')
 export class UserEntity {

@@ -1,9 +1,7 @@
-import { HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
+import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
-import { TokenStorageService } from './token-storage.service';
-import { OAuthProvider, UserEntity } from './entities/user.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { TokenRedisService } from '../redis/token-redis.service';
 import { SocialProfile } from './interfaces/social-profile.interface';
 import { AuthException } from 'src/common/exceptions/auth.exception';
 import { ErrorCode } from 'src/common/errors/error-code.enum';
@@ -11,14 +9,13 @@ import { ErrorCode } from 'src/common/errors/error-code.enum';
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
+    private readonly usersService: UsersService,
     private jwtService: JwtService, 
-    private readonly tokenStorage: TokenStorageService,
+    private readonly tokenStorage: TokenRedisService,
   ) {}
 
   async socialLogin(profile: SocialProfile) {
-    const user = await this.findOrCreateUser(profile);
+    const user = await this.usersService.findOrCreateUser(profile);
 
     const payload = {
       sub: user.id,
@@ -57,7 +54,7 @@ export class AuthService {
       );
     }
 
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const user = await this.usersService.findOneByCondition({ id: userId });
     if (!user || !user.isActive) {
       throw new AuthException(
         ErrorCode.USER_NOT_FOUND_OR_INACTIVE,
@@ -78,27 +75,5 @@ export class AuthService {
 
   async logout(userId: string) {
     await this.tokenStorage.deleteRefreshToken(userId);
-  }
-
-  private async findOrCreateUser(profile: SocialProfile): Promise<UserEntity> {
-    let user = await this.userRepository.findOne({
-      where: {
-        provider: profile.provider,
-        providerId: profile.providerId,
-      },
-    });
-
-    if (!user) {
-      user = this.userRepository.create({
-        email: profile.email,
-        displayName: profile.name,
-        profileImage: profile.profileImage,
-        provider: profile.provider,
-        providerId: profile.providerId,
-      });
-      user = await this.userRepository.save(user);
-    }
-
-    return user;
   }
 }
