@@ -2,7 +2,7 @@ import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { configValidationSchema } from "./config/config.schema";
 import { AuthModule } from './modules/auth/auth.module';
-import { RedisModule } from './modules/redis/redis.module';
+import { RedisModule } from './shared/redis/redis.module';
 import { appConfig, authConfig, databaseConfig } from "./config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import redisConfig from "./config/redis.config";

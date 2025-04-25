@@ -1,11 +1,12 @@
 import { Body, Controller, Get, HttpCode, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
-import { TemplateService } from 'src/share/template/template.service';
+import { TemplateService } from 'src/shared/template/template.service';
 import { ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { GitHubLoginDoc, GoogleLoginDoc, LogoutDoc, RefreshTokenDoc } from './docs/auth.docs';
 import { LogoutDto } from './dto/logout.dto';
+
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {

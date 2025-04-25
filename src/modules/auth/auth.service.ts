@@ -1,7 +1,7 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
-import { TokenRedisService } from '../redis/token-redis.service';
+import { TokenRedisService } from '../../shared/redis/token-redis.service';
 import { SocialProfile } from './interfaces/social-profile.interface';
 import { AuthException } from 'src/common/exceptions/auth.exception';
 import { ErrorCode } from 'src/common/errors/error-code.enum';

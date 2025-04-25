@@ -6,8 +6,8 @@ import { JwtModule } from "@nestjs/jwt";
 import { GithubStrategy } from "./strategy/github.strategy";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { GoogleStrategy } from "./strategy/google.strategy";
-import { TokenRedisService } from "../redis/token-redis.service";
-import { TemplateModule } from "src/share/template/template.module";
+import { TokenRedisService } from "../../shared/redis/token-redis.service";
+import { TemplateModule } from "src/shared/template/template.module";
 import { UsersModule } from "../users/users.module";
 
 @Module({
