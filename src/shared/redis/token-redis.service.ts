@@ -5,7 +5,10 @@ import Redis from 'ioredis';
 export class TokenRedisService {
   constructor(@Inject('REDIS_CLIENT') private readonly redis: Redis) {}
 
-  async storeRefreshToken(userId: string, token: string, ttl = 7 * 24 * 60 * 60): Promise<void> {
+  // The refresh token itself is valid for 14 days, therefore
+  // we keep the value in Redis for the same amount of time to
+  // prevent valid tokens from being removed prematurely.
+  async storeRefreshToken(userId: string, token: string, ttl = 14 * 24 * 60 * 60): Promise<void> {
     await this.redis.set(`refresh:${userId}`, token, 'EX', ttl);
   }
 
