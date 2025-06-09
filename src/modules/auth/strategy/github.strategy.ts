@@ -4,6 +4,7 @@ import { Profile, Strategy } from 'passport-github2';
 import authConfig from 'src/config/auth.config';
 import { ConfigType } from '@nestjs/config';
 import { SocialProfile } from '../interfaces/social-profile.interface';
+import { AuthProvider } from 'src/common/enums/auth-provider.enum';
 
 @Injectable()
 export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
@@ -21,7 +22,7 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
 
   async validate(_: string, __: string, profile: Profile): Promise<SocialProfile> {
     return {
-      provider: 'github',
+      provider: AuthProvider.GITHUB,
       providerId: profile.id,
       name: profile.displayName,
       email: profile.emails?.[0]?.value || '',

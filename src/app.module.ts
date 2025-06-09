@@ -6,6 +6,8 @@ import { RedisModule } from './shared/redis/redis.module';
 import { UserModule } from "./modules/user/user.module";
 import { appConfig, authConfig, databaseConfig } from "./config";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { GroupModule } from './modules/group/group.module';
+import { NotoficationModule } from './modules/notofication/notofication.module';
 import redisConfig from "./config/redis.config";
 
 @Module({
@@ -37,6 +39,8 @@ import redisConfig from "./config/redis.config";
     RedisModule,
     AuthModule,
     UserModule,
+    GroupModule,
+    NotoficationModule,
   ],
 })
 export class AppModule {}

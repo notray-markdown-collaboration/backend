@@ -1,5 +1,5 @@
 import { IsString, IsEmail, IsOptional, IsUrl, MaxLength, IsNotEmpty } from 'class-validator';
-import { OAuthProvider } from '../../../common/types/oAuthProvider.type';
+import { AuthProvider } from 'src/common/enums/auth-provider.enum';
 
 export class CreateUserDto {
   @IsEmail()
@@ -17,7 +17,7 @@ export class CreateUserDto {
 
   @IsString()
   @IsNotEmpty()
-  provider: OAuthProvider;
+  provider: AuthProvider;
 
   @IsString()
   @IsNotEmpty()

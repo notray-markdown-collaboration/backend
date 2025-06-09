@@ -1,5 +1,7 @@
+import { AuthProvider } from "src/common/enums/auth-provider.enum";
+
 export interface SocialProfile {
-  provider: 'google' | 'github';
+  provider: AuthProvider;
   providerId: string;
   name: string;
   email: string;
