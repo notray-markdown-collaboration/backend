@@ -1,5 +1,5 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
+import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { TokenRedisService } from '../../shared/redis/token-redis.service';
 import { SocialProfile } from './interfaces/social-profile.interface';
@@ -9,13 +9,13 @@ import { ErrorCode } from 'src/common/errors/error-code.enum';
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly usersService: UsersService,
+    private readonly userService: UserService,
     private jwtService: JwtService, 
     private readonly tokenStorage: TokenRedisService,
   ) {}
 
   async socialLogin(profile: SocialProfile) {
-    const user = await this.usersService.findOrCreateUser(profile);
+    const user = await this.userService.findOrCreateUser(profile);
 
     const payload = {
       sub: user.id,
@@ -54,7 +54,7 @@ export class AuthService {
       );
     }
 
-    const user = await this.usersService.findOneByCondition({ id: userId });
+    const user = await this.userService.findOneByCondition({ id: userId });
     if (!user || !user.isActive) {
       throw new AuthException(
         ErrorCode.USER_NOT_FOUND_OR_INACTIVE,

@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { UsersRepository } from './users.repository';
+import { UserRepository } from './user.repository';
 import { UserEntity } from './entities/user.entity';
-import { CreateUserDto } from 'src/modules/users/dto/create-user.dto';
+import { CreateUserDto } from 'src/modules/user/dto/create-user.dto';
 
 @Injectable()
-export class UsersService {
+export class UserService {
   constructor(
-    private readonly usersRepository: UsersRepository
+    private readonly usersRepository: UserRepository
   ) {}
 
   // id로 사용자 조회

@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { configValidationSchema } from "./config/config.schema";
 import { AuthModule } from './modules/auth/auth.module';
 import { RedisModule } from './shared/redis/redis.module';
+import { UserModule } from "./modules/user/user.module";
 import { appConfig, authConfig, databaseConfig } from "./config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import redisConfig from "./config/redis.config";
@@ -33,8 +34,9 @@ import redisConfig from "./config/redis.config";
         };
       },
     }),
-    AuthModule,
     RedisModule,
+    AuthModule,
+    UserModule,
   ],
 })
 export class AppModule {}

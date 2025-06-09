@@ -8,7 +8,7 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { GoogleStrategy } from "./strategy/google.strategy";
 import { TokenRedisService } from "../../shared/redis/token-redis.service";
 import { TemplateModule } from "src/shared/template/template.module";
-import { UsersModule } from "../users/users.module";
+import { UserModule } from "../user/user.module";
 
 @Module({
   imports: [
@@ -22,7 +22,7 @@ import { UsersModule } from "../users/users.module";
       }),
     }),
     TemplateModule,
-    UsersModule,
+    UserModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, TokenRedisService, GithubStrategy, GoogleStrategy],
