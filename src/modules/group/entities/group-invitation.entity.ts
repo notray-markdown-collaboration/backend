@@ -1,8 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, BeforeInsert } from 'typeorm';
 import { GroupEntity } from './group.entity';
 import { UserEntity } from 'src/modules/user/entities/user.entity';
 import { GroupInvitationStatus } from 'src/common/enums';
-
+import { v4 as uuidv4 } from 'uuid';
 
 @Entity()
 export class GroupInvitationEntity {
@@ -28,4 +28,9 @@ export class GroupInvitationEntity {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @BeforeInsert()
+  setId() {
+    if (!this.id) this.id = uuidv4();
+  }
 }

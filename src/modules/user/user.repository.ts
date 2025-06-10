@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from './entities/user.entity';
+import { FindUserCondition } from './types/user.types';
 
 @Injectable()
 export class UserRepository {
@@ -11,7 +12,7 @@ export class UserRepository {
   ) {}
 
   // 사용자 조회
-  async findOne(condition: Partial<UserEntity>): Promise<UserEntity | null> {
+  async findOne(condition: FindUserCondition): Promise<UserEntity | null> {
     return this.userRepository.findOne({ where: condition });
   }
 

@@ -3,7 +3,8 @@ import { GroupInvitationEntity } from 'src/modules/group/entities/group-invitati
 import { GroupMemberEntity } from 'src/modules/group/entities/group-member.entity';
 import { GroupEntity } from 'src/modules/group/entities/group.entity';
 import { NotificationEntity } from 'src/modules/notofication/entities/notification.entity';
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany, BeforeInsert } from 'typeorm';
+import { v4 as uuidv4 } from 'uuid';
 
 @Entity('users')
 export class UserEntity {
@@ -45,4 +46,9 @@ export class UserEntity {
 
   @OneToMany(() => NotificationEntity, notification => notification.userId)
   notifications: NotificationEntity[];
+
+  @BeforeInsert()
+  setId() {
+    if (!this.id) this.id = uuidv4();
+  }
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UserRepository } from './user.repository';
 import { UserEntity } from './entities/user.entity';
 import { CreateUserDto } from 'src/modules/user/dto/create-user.dto';
+import { FindUserCondition } from './types/user.types';
 
 @Injectable()
 export class UserService {
@@ -10,7 +11,7 @@ export class UserService {
   ) {}
 
   // id로 사용자 조회
-  async findOneByCondition(condition: Partial<UserEntity>): Promise<UserEntity | null> {
+  async findOneByCondition(condition: FindUserCondition): Promise<UserEntity | null> {
     return this.usersRepository.findOne(condition);
   }
 

@@ -1,8 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, JoinColumn, BeforeInsert } from 'typeorm';
 import { GroupEntity } from './group.entity';
 import { UserEntity } from 'src/modules/user/entities/user.entity';
 import { GroupRole } from 'src/common/enums';
-
+import { v4 as uuidv4 } from 'uuid';
 
 @Entity()
 export class GroupMemberEntity {
@@ -22,4 +22,9 @@ export class GroupMemberEntity {
 
   @CreateDateColumn({ name: 'joined_at' })
   joinedAt: Date;
+
+  @BeforeInsert()
+  setId() {
+    if (!this.id) this.id = uuidv4();
+  }
 }

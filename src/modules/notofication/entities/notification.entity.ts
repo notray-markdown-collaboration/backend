@@ -1,11 +1,11 @@
 import { UserEntity } from 'src/modules/user/entities/user.entity';
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
-
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, JoinColumn, BeforeInsert } from 'typeorm';
+import { v4 as uuidv4 } from 'uuid';
 
 @Entity('notifications')
 export class NotificationEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @ManyToOne(() => UserEntity, user => user.id)
   @JoinColumn({ name: 'user_id' })
@@ -22,4 +22,9 @@ export class NotificationEntity {
 
   @CreateDateColumn()
   createdAt: Date;
+
+  @BeforeInsert()
+  setId() {
+    if (!this.id) this.id = uuidv4();
+  }
 }

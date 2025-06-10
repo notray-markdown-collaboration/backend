@@ -1,7 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany, JoinColumn, BeforeInsert } from 'typeorm';
 import { UserEntity } from 'src/modules/user/entities/user.entity';
 import { GroupMemberEntity } from './group-member.entity';
 import { GroupInvitationEntity } from './group-invitation.entity';
+import { v4 as uuidv4 } from 'uuid';
 
 @Entity('groups')
 export class GroupEntity {
@@ -29,4 +30,9 @@ export class GroupEntity {
 
   @OneToMany(() => GroupInvitationEntity, invite => invite.groupId, { onDelete: 'CASCADE' })
   invitations: GroupInvitationEntity[];
+
+  @BeforeInsert()
+  setId() {
+    if (!this.id) this.id = uuidv4();
+  }
 }
