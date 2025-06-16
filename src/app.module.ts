@@ -4,11 +4,10 @@ import { configValidationSchema } from "./config/config.schema";
 import { AuthModule } from './modules/auth/auth.module';
 import { RedisModule } from './shared/redis/redis.module';
 import { UserModule } from "./modules/user/user.module";
-import { appConfig, authConfig, databaseConfig } from "./config";
+import { appConfig, authConfig, databaseConfig, redisConfig } from "./config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { GroupModule } from './modules/group/group.module';
 import { NotoficationModule } from './modules/notofication/notofication.module';
-import redisConfig from "./config/redis.config";
 
 @Module({
   imports: [

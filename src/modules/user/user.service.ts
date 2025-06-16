@@ -10,7 +10,7 @@ export class UserService {
     private readonly usersRepository: UserRepository
   ) {}
 
-  // id로 사용자 조회
+  // 특정 사용자 조회
   async findOneByCondition(condition: FindUserCondition): Promise<UserEntity | null> {
     return this.usersRepository.findOne(condition);
   }

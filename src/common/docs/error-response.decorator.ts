@@ -1,12 +1,12 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
-import { ErrorCode } from '../errors/error-code.enum';
+import { ErrorCodeType } from '../types/error-code.types';
 import { HttpStatus } from '@nestjs/common';
 
 export function ApiErrorExamplesResponse(
   status: HttpStatus,
   path: string,
-  examples: [ErrorCode, string][],
+  examples: [ErrorCodeType, string][],
 ) {
   const swaggerExamples = examples.reduce((acc, [errorCode, message]) => {
     acc[errorCode] = {

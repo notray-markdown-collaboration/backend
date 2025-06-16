@@ -3,8 +3,8 @@ import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { TokenRedisService } from '../../shared/redis/token-redis.service';
 import { SocialProfile } from './interfaces/social-profile.interface';
-import { AuthException } from 'src/common/exceptions/auth.exception';
-import { ErrorCode } from 'src/common/errors/error-code.enum';
+import { CustomException } from '@/common/exceptions/custom.exception';
+import { AuthErrorCode } from '@/modules/auth/errors/auth-error.enum';
 
 @Injectable()
 export class AuthService {
@@ -38,27 +38,24 @@ export class AuthService {
       const decoded = this.jwtService.verify(refreshToken);
       userId = decoded.sub;
     } catch (error) {
-      throw new AuthException(
-        ErrorCode.AUTH_INVALID_REFRESH_TOKEN,
-        undefined,
+      throw new CustomException(
+        AuthErrorCode.AUTH_INVALID_REFRESH_TOKEN,
         HttpStatus.UNAUTHORIZED,
       );
     }
 
     const stored = await this.tokenStorage.getRefreshToken(userId);
     if (!stored || stored !== refreshToken) {
-      throw new AuthException(
-        ErrorCode.AUTH_INVALID_REFRESH_TOKEN,
-        undefined,
+      throw new CustomException(
+        AuthErrorCode.AUTH_INVALID_REFRESH_TOKEN,
         HttpStatus.UNAUTHORIZED,
       );
     }
 
     const user = await this.userService.findOneByCondition({ id: userId });
     if (!user || !user.isActive) {
-      throw new AuthException(
-        ErrorCode.USER_NOT_FOUND_OR_INACTIVE,
-        undefined,
+      throw new CustomException(
+        AuthErrorCode.USER_NOT_FOUND_OR_INACTIVE,
         HttpStatus.UNAUTHORIZED,
       );
     }

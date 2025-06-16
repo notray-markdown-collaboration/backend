@@ -1,7 +1,9 @@
 import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { getKSTTimestamp } from '../utils/time.util';
-import { ErrorMessageMap } from '../errors/error-message.map';
+import { ErrorMessageMap } from '../exceptions/error-message.map';
+import { SystemErrorCode } from '../exceptions/system-error.enum';
+import { CustomException } from '../exceptions/custom.exception';
 
 @Catch()
 export class AllExceptionFilter implements ExceptionFilter {
@@ -13,10 +15,10 @@ export class AllExceptionFilter implements ExceptionFilter {
     const req = ctx.getRequest<Request>();
 
     let status = HttpStatus.INTERNAL_SERVER_ERROR;
-    let message = '서버 내부 오류가 발생했습니다.';
-    let errorCode = 'INTERNAL_SERVER_ERROR';
+    let errorCode = SystemErrorCode.INTERNAL_SERVER_ERROR;
+    let message = ErrorMessageMap[errorCode];
 
-    if (exception instanceof HttpException) {
+    if (exception instanceof CustomException) {
       const response = exception.getResponse();
       const resObj = typeof response === 'string' ? { message: response } : response;
 

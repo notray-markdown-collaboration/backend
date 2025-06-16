@@ -2,9 +2,9 @@ import { applyDecorators } from '@nestjs/common';
 import { ApiOperation, ApiBody, ApiOkResponse } from '@nestjs/swagger';
 import { RefreshTokenDto } from '../dto/refresh-token.dto';
 import { LogoutDto } from '../dto/logout.dto';
-import { ErrorCode } from 'src/common/errors/error-code.enum';
+import { AuthErrorCode } from '@/modules/auth/errors/auth-error.enum';
 import { ApiErrorExamplesResponse } from 'src/common/docs/error-response.decorator';
-import { ErrorMessageMap } from 'src/common/errors/error-message.map';
+import { ErrorMessageMap } from '@/common/exceptions/error-message.map';
 
 export const GitHubLoginDoc = () =>
   applyDecorators(ApiOperation({ summary: 'GitHub OAuth 로그인 진입' }));
@@ -21,8 +21,8 @@ export const RefreshTokenDoc = () =>
       type: RefreshTokenDto,
     }),
     ApiErrorExamplesResponse(401, '/auth/refresh', [
-      [ErrorCode.AUTH_INVALID_REFRESH_TOKEN, ErrorMessageMap[ErrorCode.AUTH_INVALID_REFRESH_TOKEN]],
-      [ErrorCode.USER_NOT_FOUND_OR_INACTIVE, ErrorMessageMap[ErrorCode.USER_NOT_FOUND_OR_INACTIVE]],
+      [AuthErrorCode.AUTH_INVALID_REFRESH_TOKEN, ErrorMessageMap[AuthErrorCode.AUTH_INVALID_REFRESH_TOKEN]],
+      [AuthErrorCode.USER_NOT_FOUND_OR_INACTIVE, ErrorMessageMap[AuthErrorCode.USER_NOT_FOUND_OR_INACTIVE]],
     ]),
   );
 
