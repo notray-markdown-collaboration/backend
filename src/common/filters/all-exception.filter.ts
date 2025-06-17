@@ -1,4 +1,4 @@
-import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus } from '@nestjs/common';
+import { ExceptionFilter, Catch, ArgumentsHost, HttpStatus, NotFoundException, HttpException } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { getKSTTimestamp } from '../utils/time.util';
 import { ErrorMessageMap } from '../exceptions/error-message.map';
@@ -25,6 +25,17 @@ export class AllExceptionFilter implements ExceptionFilter {
       status = exception.getStatus();
       errorCode = resObj['errorCode'] ?? errorCode;
       message = ErrorMessageMap[errorCode] ?? resObj['message'] ?? message;
+    } 
+    else if (exception instanceof NotFoundException) {
+      status = 404;
+      errorCode = SystemErrorCode.NOT_FOUND;
+      message = ErrorMessageMap[errorCode];
+    } 
+    else if (exception instanceof HttpException) {
+      status = exception.getStatus();
+      const response = exception.getResponse();
+      const resObj = typeof response === 'string' ? { message: response } : response;
+      message = resObj['message'] ?? message;
     }
 
     res.status(status).json({
