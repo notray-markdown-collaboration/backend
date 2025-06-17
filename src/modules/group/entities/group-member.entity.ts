@@ -9,13 +9,19 @@ export class GroupMemberEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => GroupEntity, group => group.id)
+  @ManyToOne(() => GroupEntity, group => group.id, { 
+    onDelete: 'CASCADE',
+    nullable: false
+   })
   @JoinColumn({ name: 'group_id' })
-  groupId: GroupEntity;
+  group: GroupEntity;
 
-  @ManyToOne(() => UserEntity, user => user.id)
+  @ManyToOne(() => UserEntity, user => user.id, { 
+    onDelete: 'CASCADE',
+    nullable: false
+  })
   @JoinColumn({ name: 'user_id' })
-  userId: UserEntity;
+  user: UserEntity;
 
   @Column({ type: 'enum', enum: GroupRole, default: GroupRole.MEMBER })
   role: GroupRole;

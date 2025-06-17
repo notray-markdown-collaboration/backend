@@ -7,9 +7,9 @@ export class NotificationEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => UserEntity, user => user.id)
+  @ManyToOne(() => UserEntity, user => user.id, { nullable: false })
   @JoinColumn({ name: 'user_id' })
-  userId: UserEntity;
+  user: UserEntity;
 
   @Column()
   message: string;

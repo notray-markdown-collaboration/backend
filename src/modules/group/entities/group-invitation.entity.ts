@@ -9,13 +9,19 @@ export class GroupInvitationEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => GroupEntity, group => group.id)
+  @ManyToOne(() => GroupEntity, group => group.id, { 
+    onDelete: 'CASCADE',
+    nullable: false
+   })
   @JoinColumn({ name: 'group_id' })
-  groupId: GroupEntity;
+  group: GroupEntity;
 
-  @ManyToOne(() => UserEntity, user => user.id)
+  @ManyToOne(() => UserEntity, user => user.id, {
+    onDelete: 'CASCADE',
+    nullable: false
+  })
   @JoinColumn({ name: 'invited_user_id' })
-  invitedUserId: UserEntity;
+  invitedUser: UserEntity;
 
   @Column({ type: 'enum', enum: GroupInvitationStatus, default: GroupInvitationStatus.PENDING })
   status: GroupInvitationStatus;

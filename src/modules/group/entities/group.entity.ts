@@ -21,14 +21,17 @@ export class GroupEntity {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @ManyToOne(() => UserEntity, (user) => user.id)
+  @ManyToOne(() => UserEntity, (user) => user.id, {
+    onDelete: 'CASCADE',
+    nullable: false,
+  })
   @JoinColumn({ name: 'owner_id' })
-  ownerId: UserEntity;
+  owner: UserEntity;
 
-  @OneToMany(() => GroupMemberEntity, groupMember => groupMember.userId, { onDelete: 'CASCADE' })
+  @OneToMany(() => GroupMemberEntity, groupMember => groupMember.user)
   members: GroupMemberEntity[];
 
-  @OneToMany(() => GroupInvitationEntity, invite => invite.groupId, { onDelete: 'CASCADE' })
+  @OneToMany(() => GroupInvitationEntity, invite => invite.group)
   invitations: GroupInvitationEntity[];
 
   @BeforeInsert()

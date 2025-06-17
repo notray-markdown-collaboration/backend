@@ -35,16 +35,16 @@ export class UserEntity {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @OneToMany(() => GroupEntity, group => group.ownerId)
+  @OneToMany(() => GroupEntity, group => group.owner)
   ownedGroups: GroupEntity[];
 
-  @OneToMany(() => GroupMemberEntity, groupMember => groupMember.userId, { onDelete: 'CASCADE' })
+  @OneToMany(() => GroupMemberEntity, groupMember => groupMember.user)
   joindGroups: GroupMemberEntity[];
 
-  @OneToMany(() => GroupInvitationEntity, groupInvitation => groupInvitation.invitedUserId)
+  @OneToMany(() => GroupInvitationEntity, groupInvitation => groupInvitation.invitedUser)
   receivedInvites: GroupInvitationEntity[];
 
-  @OneToMany(() => NotificationEntity, notification => notification.userId)
+  @OneToMany(() => NotificationEntity, notification => notification.user)
   notifications: NotificationEntity[];
 
   @BeforeInsert()

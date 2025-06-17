@@ -14,7 +14,7 @@ export class GroupService {
     return [...ownerGroups, ...joindGroups];
   }
 
-  async createGroup(data: CreateGroupDto): Promise<GroupEntity> {
-    return this.groupRepository.createGroup(data);
+  async createGroup(ownerId: string, data: CreateGroupDto): Promise<GroupEntity> {
+    return this.groupRepository.createGroup(ownerId, data);
   }
 }

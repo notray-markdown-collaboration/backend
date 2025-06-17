@@ -20,7 +20,7 @@ export class GroupController {
   // 그룹 생성
   @UseGuards(JwtAuthGuard)
   @Post()
-  async create(@Body() body: CreateGroupDto): Promise<GroupEntity> {
-    return this.groupService.createGroup(body);
+  async create(@User() user: UserEntity, @Body() body: CreateGroupDto): Promise<GroupEntity> {
+    return this.groupService.createGroup(user.id, body);
   }
 }
