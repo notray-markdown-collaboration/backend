@@ -23,7 +23,11 @@ async function bootstrap() {
       whitelist: true, // DTO에 정의되지 않은 값 제거
       transform: true, // payload를 자동으로 DTO 타입으로 변환
       exceptionFactory: (errors) => {
-        return new CustomException(SystemErrorCode.VALIDATION_FAILED, 422);
+        const details = errors
+          .map(e => Object.values(e.constraints || {}).join(', '))
+          .join('; ');
+
+        return new CustomException(SystemErrorCode.VALIDATION_FAILED, 422, { message: details });
       },
     }),
   );

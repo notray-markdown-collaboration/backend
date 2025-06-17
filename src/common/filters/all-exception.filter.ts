@@ -17,6 +17,7 @@ export class AllExceptionFilter implements ExceptionFilter {
     let status = HttpStatus.INTERNAL_SERVER_ERROR;
     let errorCode = SystemErrorCode.INTERNAL_SERVER_ERROR;
     let message = ErrorMessageMap[errorCode];
+    let data = null;
 
     if (exception instanceof CustomException) {
       const response = exception.getResponse();
@@ -24,26 +25,30 @@ export class AllExceptionFilter implements ExceptionFilter {
 
       status = exception.getStatus();
       errorCode = resObj['errorCode'] ?? errorCode;
-      message = ErrorMessageMap[errorCode] ?? resObj['message'] ?? message;
-    } 
+      message = resObj['message'] ?? ErrorMessageMap[errorCode] ?? message;
+      data = resObj['data'] ?? null;
+    }
     else if (exception instanceof NotFoundException) {
       status = 404;
       errorCode = SystemErrorCode.NOT_FOUND;
       message = ErrorMessageMap[errorCode];
     } 
     else if (exception instanceof HttpException) {
-      status = exception.getStatus();
       const response = exception.getResponse();
       const resObj = typeof response === 'string' ? { message: response } : response;
+
+      status = exception.getStatus();
       message = resObj['message'] ?? message;
+      data = resObj['data'] ?? null;
     }
 
     res.status(status).json({
       statusCode: status,
       errorCode,
       message,
+      data,
       timestamp: getKSTTimestamp(),
-      path: req.url,
+      path: req.url
     });
   }
 }
