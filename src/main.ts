@@ -32,6 +32,10 @@ async function bootstrap() {
     }),
   );
 
+  app.enableCors({
+    maxAge: 86400,
+  });
+
   app.useGlobalFilters(new AllExceptionFilter());
 
   await app.listen(3000);
